@@ -1,0 +1,429 @@
+#! C:/Program Files/Nuke15.0v1/nuke-15.0.1.dll -nx
+version 15.0 v1
+Gizmo {
+ inputs 0
+ addUserKnob {20 User}
+ addUserKnob {41 format_1 l "output format" T Reformat1.format}
+ addUserKnob {41 speed t "Use this to set speed of radial animation" T NoOp1.speed}
+ addUserKnob {41 ringWidth l "ring width" t "Use this to set rings thickness" T NoOp1.ringWidth}
+ addUserKnob {26 _2 l "" +STARTLINE}
+ addUserKnob {26 text l "" +STARTLINE T <b>}
+ addUserKnob {26 RGBrings l "" +STARTLINE T "RGB rings settings"}
+ addUserKnob {26 text_5 l "" +STARTLINE T <b>}
+ addUserKnob {26 Ring_R l "" +STARTLINE T "Ring R"}
+ addUserKnob {41 SpinRadiusA l "spin radius" T NoOp1.SpinRadiusA}
+ addUserKnob {41 time_offset l "time offset (frames)" T TimeOffset1.time_offset}
+ addUserKnob {26 Zoom_Blur l "" +STARTLINE T "Zoom Blur"}
+ addUserKnob {41 scale T GodRays1.scale}
+ addUserKnob {26 text_1 l "" +STARTLINE T <b>}
+ addUserKnob {26 Ring_G l "" +STARTLINE T "Ring G"}
+ addUserKnob {41 SpinRadiusB l "spin radius" T NoOp1.SpinRadiusB}
+ addUserKnob {41 time_offset_1 l "time offset (frames)" T TimeOffset2.time_offset}
+ addUserKnob {26 Zoom_Blur_1 l "" +STARTLINE T "Zoom Blur"}
+ addUserKnob {41 scale_1 l scale T GodRays2.scale}
+ addUserKnob {26 text_2 l "" +STARTLINE T <b>}
+ addUserKnob {26 Ring_B l "" +STARTLINE T "Ring B"}
+ addUserKnob {41 SpinRadiusC l "spin radius" T NoOp1.SpinRadiusC}
+ addUserKnob {41 time_offset_2 l "time offset (frames)" T TimeOffset3.time_offset}
+ addUserKnob {26 Zoom_Blur_2 l "" +STARTLINE T "Zoom Blur"}
+ addUserKnob {41 scale_2 l scale T GodRays3.scale}
+ addUserKnob {26 ""}
+ addUserKnob {26 text_3 l "" +STARTLINE T <b>}
+ addUserKnob {26 Vignette_Inner l "" +STARTLINE T "Vignette Inner"}
+ addUserKnob {41 white l gain T Grade2.white}
+ addUserKnob {41 gamma T Grade2.gamma}
+ addUserKnob {26 Vignete_Outer l "" +STARTLINE T "Vignette Outer"}
+ addUserKnob {41 white_1 l gain T Grade3.white}
+ addUserKnob {41 gamma_1 l gamma T Grade3.gamma}
+ addUserKnob {26 _1 l "" +STARTLINE T "Vignette softness"}
+ addUserKnob {41 softness T Radial1.softness}
+ addUserKnob {26 ""}
+ addUserKnob {26 text_4 l "" +STARTLINE T <b>}
+ addUserKnob {26 Blur l "" +STARTLINE T Blur}
+ addUserKnob {41 size T Blur2.size}
+ addUserKnob {26 Distortion_amount l "" +STARTLINE T "Distortion amount"}
+ addUserKnob {41 mix T Merge3.mix}
+ addUserKnob {20 info l Info}
+ addUserKnob {26 desc l Name: T RingsOfMoira}
+ addUserKnob {26 ver l Version: T "v 1.0"}
+ addUserKnob {26 creator l Creator: T "Arek Stefaniak"}
+ addUserKnob {26 ""}
+ addUserKnob {26 note l "" +STARTLINE T "Gizmo on default settings loops on 1001-1200 frame range."}
+}
+ Reformat {
+  inputs 0
+  format "2048 2048 0 0 2048 2048 1 square_2K"
+  name Reformat1
+  xpos -811
+  ypos -789
+ }
+set Ne605f000 [stack 0]
+ Dot {
+  name Dot15
+  xpos -92
+  ypos 450
+  hide_input true
+ }
+ Radial {
+  area {0 0 {Reformat1.format.width} {Reformat1.format.height}}
+  softness 0.6
+  name Radial1
+  xpos -126
+  ypos 498
+ }
+ Dot {
+  name Dot5
+  xpos -92
+  ypos 550
+ }
+set Ne6098000 [stack 0]
+ Dot {
+  name Dot6
+  xpos -92
+  ypos 609
+ }
+push $Ne6098000
+push $Ne605f000
+ Dot {
+  name Dot12
+  xpos -1047
+  ypos -76
+  hide_input true
+ }
+ Radial {
+  area {0 0 {Reformat1.format.width} {Reformat1.format.height}}
+  softness 0.8
+  name Radial2
+  xpos -1081
+  ypos -29
+ }
+push $Ne605f000
+ Dot {
+  name Dot13
+  xpos -1320
+  ypos -71
+  hide_input true
+ }
+ Expression {
+  expr0 (x+0.5)/width
+  expr1 (y+0.5)/height
+  name Expression5
+  xpos -1354
+  ypos -29
+ }
+push $Ne605f000
+ Dot {
+  name Dot7
+  xpos -1372
+  ypos -745
+  hide_input true
+ }
+ Noise {
+  size 512
+  zoffset {{frame*.05}}
+  lacunarity 1
+  center {1024 1024}
+  name Noise1
+  xpos -1406
+  ypos -687
+ }
+ Grade {
+  whitepoint 0.5
+  white_clamp true
+  name Grade1
+  xpos -1406
+  ypos -604
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color -1
+  format "4096 4096 0 0 4096 4096 1 square_4k"
+  name Constant1
+  xpos -1552
+  ypos -555
+ }
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos -1406
+  ypos -531
+ }
+ Dot {
+  name Dot3
+  xpos -1372
+  ypos -463
+ }
+push $Ne605f000
+ Dot {
+  name Dot8
+  xpos -1194
+  ypos -668
+  hide_input true
+ }
+ Expression {
+  expr0 (x+0.5)/width
+  expr1 (y+0.5)/height
+  name Expression4
+  xpos -1228
+  ypos -606
+ }
+ TransformMasked {
+  inputs 1+1
+  scale 1.5
+  center {{Reformat1.format.width*.5} {Reformat1.format.height*.5}}
+  black_outside false
+  shutteroffset centred
+  name Transform1
+  xpos -1228
+  ypos -472
+ }
+ Blur {
+  size 256
+  name Blur1
+  xpos -1228
+  ypos -344
+ }
+ Dot {
+  name Dot2
+  xpos -1194
+  ypos -274
+ }
+set Nc4932000 [stack 0]
+ TimeOffset {
+  time_offset 100
+  time ""
+  name TimeOffset5
+  xpos -1157
+  ypos -203
+ }
+push $Nc4932000
+ TimeOffset {
+  time_offset -100
+  time ""
+  name TimeOffset4
+  xpos -1306
+  ypos -202
+ }
+ Dissolve {
+  inputs 2
+  which {{curve x1050 0 x1150 1}}
+  name Dissolve1
+  xpos -1229
+  ypos -135
+ }
+ Merge2 {
+  inputs 2+1
+  operation copy
+  name Merge2
+  xpos -1229
+  ypos -29
+ }
+push $Ne605f000
+ Dot {
+  name Dot14
+  xpos -1322
+  ypos 65
+  hide_input true
+ }
+ Expression {
+  expr0 (x+0.5)/width
+  expr1 (y+0.5)/height
+  name Expression6
+  xpos -1356
+  ypos 111
+ }
+ Merge2 {
+  inputs 2
+  operation copy
+  name Merge3
+  xpos -1229
+  ypos 111
+ }
+ Dot {
+  name Dot4
+  xpos -1195
+  ypos 197
+ }
+push $Ne605f000
+ Dot {
+  name Dot11
+  xpos -235
+  ypos -396
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 "sin(sqrt((x-parent.NoOp1.RingCpos.x) * (x-parent.NoOp1.RingCpos.x) + (y-parent.NoOp1.RingCpos.y) * (y-parent.NoOp1.RingCpos.y))/parent.NoOp1.ringWidth)"
+  name Expression3
+  xpos -269
+  ypos -353
+ }
+ TimeOffset {
+  time_offset -10
+  time ""
+  name TimeOffset3
+  xpos -269
+  ypos -285
+ }
+ GodRays {
+  scale 1.6
+  center {{Reformat1.format.width*.5} {Reformat1.format.height*.5}}
+  name GodRays3
+  xpos -269
+  ypos -218
+ }
+push $Ne605f000
+ Dot {
+  name Dot9
+  xpos -641
+  ypos -399
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 "sin(sqrt((x-parent.NoOp1.RingApos.x) * (x-parent.NoOp1.RingApos.x) + (y-parent.NoOp1.RingApos.y) * (y-parent.NoOp1.RingApos.y))/parent.NoOp1.ringWidth)"
+  name Expression1
+  xpos -675
+  ypos -351
+ }
+ TimeOffset {
+  time ""
+  name TimeOffset1
+  xpos -675
+  ypos -282
+ }
+ GodRays {
+  scale 1.2
+  center {{Reformat1.format.width*.5} {Reformat1.format.height*.5}}
+  name GodRays1
+  xpos -675
+  ypos -219
+ }
+ Dot {
+  name Dot1
+  xpos -641
+  ypos -128
+ }
+push $Ne605f000
+ Dot {
+  name Dot10
+  xpos -437
+  ypos -398
+  hide_input true
+ }
+ Expression {
+  channel0 rgba
+  expr0 "sin(sqrt((x-parent.NoOp1.RingBpos.x) * (x-parent.NoOp1.RingBpos.x) + (y-parent.NoOp1.RingBpos.y) * (y-parent.NoOp1.RingBpos.y))/parent.NoOp1.ringWidth)"
+  name Expression2
+  xpos -471
+  ypos -353
+ }
+ TimeOffset {
+  time_offset -5
+  time ""
+  name TimeOffset2
+  xpos -471
+  ypos -284
+ }
+ GodRays {
+  scale 1.4
+  center {{Reformat1.format.width*.5} {Reformat1.format.height*.5}}
+  name GodRays2
+  xpos -471
+  ypos -217
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  name Copy1
+  xpos -471
+  ypos -137
+ }
+ Copy {
+  inputs 2
+  from0 rgba.blue
+  to0 rgba.blue
+  name Copy2
+  xpos -269
+  ypos -137
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  maskChannel -rgba.alpha
+  name STMap1
+  xpos -269
+  ypos 188
+ }
+ Crop {
+  box {0 0 {Reformat1.format.width} {Reformat1.format.height}}
+  name Crop1
+  xpos -269
+  ypos 291
+ }
+ Clamp {
+  name Clamp1
+  xpos -269
+  ypos 374
+ }
+ Grade {
+  inputs 1+1
+  white 2.7
+  gamma 0.82
+  name Grade2
+  xpos -270
+  ypos 547
+ }
+ Grade {
+  inputs 1+1
+  gamma 0.7
+  invert_mask true
+  name Grade3
+  xpos -270
+  ypos 606
+ }
+ Blur {
+  size 2.4
+  name Blur2
+  xpos -269
+  ypos 705
+ }
+ Output {
+  name Output1
+  xpos -269
+  ypos 916
+ }
+ NoOp {
+  inputs 0
+  name NoOp1
+  xpos -470
+  ypos -488
+  addUserKnob {20 User}
+  addUserKnob {12 ringCenter}
+  ringCenter {{Reformat1.format.width*.5} {Reformat1.format.height*.5}}
+  addUserKnob {7 speed}
+  speed 31.83
+  addUserKnob {7 ringWidth}
+  ringWidth 0.3
+  addUserKnob {26 ""}
+  addUserKnob {26 Ring_A l "" +STARTLINE T Ring_A}
+  addUserKnob {12 RingApos}
+  RingApos {{ringCenter.x-cos(frame/speed)*SpinRadiusA} {ringCenter.y-sin(frame/speed)*SpinRadiusA}}
+  addUserKnob {7 SpinRadiusA}
+  SpinRadiusA 200
+  addUserKnob {26 ""}
+  addUserKnob {26 Ring_B l "" +STARTLINE T Ring_B}
+  addUserKnob {12 RingBpos}
+  RingBpos {{ringCenter.x-cos(frame/speed)*SpinRadiusB} {ringCenter.y-sin(frame/speed)*SpinRadiusB}}
+  addUserKnob {7 SpinRadiusB}
+  SpinRadiusB 300
+  addUserKnob {26 ""}
+  addUserKnob {26 Ring_C l "" +STARTLINE T Ring_C}
+  addUserKnob {12 RingCpos}
+  RingCpos {{ringCenter.x-cos(frame/speed)*SpinRadiusC} {ringCenter.y-sin(frame/speed)*SpinRadiusC}}
+  addUserKnob {7 SpinRadiusC}
+  SpinRadiusC 400
+ }
+end_group
