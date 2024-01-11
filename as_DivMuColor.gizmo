@@ -1,0 +1,124 @@
+#! C:/Program Files/Nuke15.0v1/nuke-15.0.1.dll -nx
+version 15.0 v1
+Gizmo {
+ inputs 2
+ addUserKnob {20 settings l "DivMu settings"}
+ addUserKnob {26 ClampInputs l "Clamp Inputs"}
+ addUserKnob {41 minimum T Clamp1.minimum}
+ addUserKnob {41 minimum_enable l enable -STARTLINE T Clamp1.minimum_enable}
+ addUserKnob {41 maximum T Clamp1.maximum}
+ addUserKnob {41 maximum_enable l enable -STARTLINE T Clamp1.maximum_enable}
+ addUserKnob {26 text l "" +STARTLINE T <b>}
+ addUserKnob {26 BlurInputs l "Blur Inputs"}
+ addUserKnob {41 size T Blur1.size}
+ addUserKnob {26 text_1 l "" +STARTLINE T <b>}
+ addUserKnob {26 ErodeSource l "Erode Source"}
+ addUserKnob {41 channels T FilterErodeSource.channels}
+ addUserKnob {41 size_1 l size T FilterErodeSource.size}
+ addUserKnob {41 filter T FilterErodeSource.filter}
+ addUserKnob {26 text_2 l "" +STARTLINE T <b>}
+ addUserKnob {26 ErodeColor l "Erode Color"}
+ addUserKnob {41 channels_1 l channels T FilterErodeColor.channels}
+ addUserKnob {41 size_2 l size T FilterErodeColor.size}
+ addUserKnob {41 filter_1 l filter T FilterErodeColor.filter}
+ addUserKnob {20 Info}
+ addUserKnob {26 desc l Name: T DivMuColor}
+ addUserKnob {26 ver l Version: T "v 1.0"}
+ addUserKnob {26 Creator l Creator: T "Arek Stefaniak"}
+ addUserKnob {26 ""}
+ addUserKnob {26 description l "" +STARTLINE T "DivMuColor contains classic divide/multiply setup. \nIn typical scenarios it's common to blur both inputs but there's also the option to clamp or erode inputs separately to avoid artefacts usually caused by high values in the image.\n\n"}
+}
+ Input {
+  inputs 0
+  name InputColor
+  xpos -315
+  ypos -470
+ }
+ Clamp {
+  name Clamp1
+  xpos -315
+  ypos -214
+ }
+ set C389dfc00 [stack 0]
+ FilterErode {
+  channels rgb
+  size 0
+  filter gaussian
+  name FilterErodeColor
+  xpos -315
+  ypos -135
+ }
+ Blur {
+  size 256
+  name Blur1
+  xpos -315
+  ypos -64
+ }
+ set C38a28400 [stack 0]
+ Dot {
+  name Dot4
+  xpos -281
+  ypos 15
+ }
+ Input {
+  inputs 0
+  name InputSource
+  xpos -609
+  ypos -473
+  number 1
+ }
+ Dot {
+  name Dot1
+  xpos -575
+  ypos -276
+ }
+set N38a29000 [stack 0]
+ Dot {
+  name Dot2
+  xpos -421
+  ypos -276
+ }
+clone $C389dfc00 {
+  xpos -455
+  ypos -214
+  selected false
+ }
+ FilterErode {
+  channels rgb
+  size 0
+  filter gaussian
+  name FilterErodeSource
+  xpos -455
+  ypos -134
+ }
+clone $C38a28400 {
+  xpos -455
+  ypos -64
+  selected false
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge1
+  xpos -455
+  ypos 12
+ }
+ Dot {
+  name Dot3
+  xpos -421
+  ypos 75
+ }
+push $N38a29000
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge2
+  xpos -609
+  ypos 72
+ }
+ Output {
+  name Output1
+  xpos -609
+  ypos 207
+ }
+end_group
