@@ -1,0 +1,35 @@
+#! C:/Program Files/Nuke15.0v1/nuke-15.0.1.dll -nx
+version 15.0 v1
+Gizmo {
+ addUserKnob {20 sandwichbuffet l "Sandwich Buffet"}
+ addUserKnob {26 pickyoursandwich l "Pick your sandwich"}
+ addUserKnob {26 _1 l "" +STARTLINE T " "}
+ addUserKnob {22 unpremultpremult l "Unpremult Premult" T "n=nuke.thisNode()\nname = n.name()\nnuke.root().begin()\n\ndef sandwichUnpremultPremult():\n    #create unpremult\n    unpremult=nuke.createNode(\"Unpremult\",inpanel=False)\n    unpremult.setInput(0, None)\n\n    #create premult\n    premult=nuke.createNode(\"Premult\",inpanel=False)\n\nsandwichUnpremultPremult()" +STARTLINE}
+ addUserKnob {26 _2 l "" +STARTLINE T " "}
+ addUserKnob {22 grade l Grade T "n=nuke.thisNode()\nname = n.name()\nnuke.root().begin()\n\ndef sandwichGrade():\n    # create top grade node\n    gradetop=nuke.createNode('Grade',inpanel=False)\n    gradetop.setInput(0, None)\n    gradetop.knob('gamma').setValue(1.8)\n    gradetop.knob('reverse').setValue(True)\n    gradetop.knob('label').setValue('set values here')\n\n    # create bottom grade node\n    gradebottom=nuke.createNode('Grade',inpanel=False)\n\n    # get names of created grade nodes\n    gtname=gradetop.knob('name').getValue()\n    gbname=gradebottom.knob('name').getValue()\n\n    # set expression \n    gradebottom.knob('gamma').setExpression(\"parent.\"+gtname+\".gamma\")\n    gradebottom.knob('channels').setExpression(\"parent.\"+gtname+\".channels\")\n\nsandwichGrade()" +STARTLINE}
+ addUserKnob {26 _3 l "" +STARTLINE T " "}
+ addUserKnob {22 gamma l Gamma T "n=nuke.thisNode()\nname = n.name()\nnuke.root().begin()\n\ndef sandwichGamma():\n    # create top gamma node\n    gamtop=nuke.createNode('Gamma',inpanel=False)\n    gamtop.setInput(0, None)\n\n    # create bottom gamma node\n    gambottom=nuke.createNode('Gamma',inpanel=False)\n    gambottom.knob('value').setValue(1.8)\n    gambottom.knob('label').setValue('set values here')\n\n    # get names of created gamma nodes\n    gtname=gamtop.knob('name').getValue()\n    gbname=gambottom.knob('name').getValue()\n\n    # set expression \n    gamtop.knob('value').setExpression(\"1/parent.\"+gbname+\".value\")\n    gamtop.knob('channels').setExpression(\"parent.\"+gbname+\".channels\")\n\nsandwichGamma()" +STARTLINE}
+ addUserKnob {26 _4 l "" +STARTLINE T " "}
+ addUserKnob {22 lintolog l Lin2Log T "n=nuke.thisNode()\nname = n.name()\nnuke.root().begin()\n\ndef sandwichLin2Log():\n    #create top log2lin\n    lin2logtop=nuke.createNode(\"Log2Lin\",inpanel=False)\n    lin2logtop.knob('operation').setValue('1')\n    lin2logtop.setInput(0, None)\n    lin2logtop.knob('label').setValue('set values here')\n\n    #create bottom log2lin\n    lin2logbottom=nuke.createNode(\"Log2Lin\",inpanel=False)\n\n    # get names of created log2lin nodes\n    ltname=lin2logtop.knob('name').getValue()\n    lbname=lin2logbottom.knob('name').getValue()\n\n    # set expression\n    lin2logbottom.knob('black').setExpression(\"parent.\"+ltname+\".black\")\n    lin2logbottom.knob('white').setExpression(\"parent.\"+ltname+\".white\") \n    lin2logbottom.knob('gamma').setExpression(\"parent.\"+ltname+\".gamma\")\n\nsandwichLin2Log()" +STARTLINE}
+ addUserKnob {26 _5 l "" +STARTLINE T " "}
+ addUserKnob {22 colorspace l Colorspace T "n=nuke.thisNode()\nname = n.name()\nnuke.root().begin()\n\ndef sandwichColorspace():\n    # create top colorspace node\n    cstop=nuke.createNode('Colorspace',inpanel=False)\n    cstop.setInput(0, None)\n    cstopin=cstop.knob('colorspace_in')\n    cstopin.setValue('7')\n    cstop.knob('label').setValue('set values here')\n    cstopout=cstop.knob('colorspace_out')\n    cstopout.setValue('19')\n\n    # get name of the top colorspace node\n    ctname=cstop.knob('name').getValue()\n\n    # create bottom colorspace node\n    csbottom=nuke.createNode('Colorspace',inpanel=False)\n    csbottom.knob('colorspace_in').setExpression(\"parent.\"+ctname+\".colorspace_out\")\n    csbottom.knob('colorspace_out').setExpression(\"parent.\"+ctname+\".colorspace_in\")\n\nsandwichColorspace()" +STARTLINE}
+ addUserKnob {26 _6 l "" +STARTLINE T " "}
+ addUserKnob {22 reformatscale l "Reformat Scale" T "n=nuke.thisNode()\nname = n.name()\nnuke.root().begin()\n\ndef sandwichReformatScale():\n    # create top reformat node\n    reftop=nuke.createNode('Reformat',inpanel=False)\n    reftop.setInput(0, None)\n    reftop.knob('type').setValue('2')\n    reftop.knob('label').setValue('set values here')\n\n    # create bottom reformat node\n    refbottom=nuke.createNode('Reformat',inpanel=False)\n    refbottom.knob('type').setValue('2')\n\n    # get names of created reformat nodes\n    rtname=reftop.knob('name').getValue()\n    rbname=refbottom.knob('name').getValue()\n\n    # set expression \n    refbottom.knob('scale').setExpression(\"1/parent.\"+rtname+\".scale\")\n    refbottom.knob('resize').setExpression(\"parent.\"+rtname+\".resize\")\n    refbottom.knob('filter').setExpression(\"parent.\"+rtname+\".filter\")\n\nsandwichReformatScale()" +STARTLINE}
+ addUserKnob {20 info l Info}
+ addUserKnob {26 desc l Name: T "Sandwich Buffet"}
+ addUserKnob {26 ver l Version: T "v 1.0"}
+ addUserKnob {26 creator l Creator: T "Arek Stefaniak"}
+ addUserKnob {26 ""}
+ addUserKnob {26 note l "" +STARTLINE T "Sandwich Buffet gizmo is a set of python buttons creating popular node setups, applying a certain operation and inverting it back.\nWhile unpremult-premult is very simple, other setups offer expression connections saving additional clicks and tweaks.\n\n\nPlease note, each setup has one node labeled “set values here”, that’s the one you want to play with.\n\n\nGrade and Gamma sandwich is mostly popular for applying defocus, it’s applying preferable gamma value and inverting it back at the end.\n\n\nLin2Log sandwich converts linear color space to logarithmic and back and offers white, black, gamma sliders expression connection.\n\n\nColorspace allows you to change color space without needing to switch back in the second node.\n\n\nReformat with scale operation allows you to scale image and invert transformation back. \nThis setup is also mirroring resize type and filter knobs. \n\n"}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 0
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+end_group
